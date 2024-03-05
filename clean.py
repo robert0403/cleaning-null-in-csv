@@ -13,6 +13,7 @@ def clean(file_name,logger):
     for line in lines:
         if '\0' in line:
             flag = True
+            print(line)
         else:
             new_lines.append(line)
     if flag:
@@ -43,8 +44,13 @@ def main():
         start_ = time()
         logger.info(f"{i} Directory: {dirpath}")
         for filename in filenames:
-            target_file = os.path.join(root_directory,dirpath, filename)
-            clean(target_file,logger)
+            try:
+                target_file = os.path.join(root_directory,dirpath, filename)
+                clean(target_file,logger)
+            except Exception as e:
+                logger.warning(f"Error: {e}")
+                logger.warning(f"Error: {filename}")
+                logger.warning(f"Error: {dirpath}")
         i+=1    
         end_ = time()
         logger.info(f"Time taken: {end_ - start_}")
